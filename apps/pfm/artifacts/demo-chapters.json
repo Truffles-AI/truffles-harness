@@ -1,0 +1,90 @@
+{
+  "chapters": [
+    {
+      "start": 0.307,
+      "title": "IB3 / Conversational personal finance"
+    },
+    {
+      "start": 10.6,
+      "title": "Chat grounded in ledger facts"
+    },
+    {
+      "start": 21.788,
+      "title": "Incoming payment \u2192 category \u2192 budget nudge"
+    },
+    {
+      "start": 33.33,
+      "title": "Unfamiliar merchant \u2192 reviewable AI category"
+    },
+    {
+      "start": 44.768,
+      "title": "Customer-controlled savings goals"
+    },
+    {
+      "start": 56.429,
+      "title": "Hindi summary, same financial facts"
+    },
+    {
+      "start": 64.843,
+      "title": "Opt-in voice, through Truffles"
+    },
+    {
+      "start": 93.951,
+      "title": "Auditable changes and visible fallback"
+    },
+    {
+      "start": 105.755,
+      "title": "Ready for bank integration review"
+    }
+  ],
+  "duration_seconds": 119.16,
+  "browser_errors": [],
+  "failed_http_responses": [],
+  "synthetic_only": true,
+  "audio_tracks": [
+    [
+      "/Users/tanmayarora/truffles harness/apps/pfm/artifacts/raw-video/narration-0.aiff",
+      0.30687983299139887
+    ],
+    [
+      "/Users/tanmayarora/truffles harness/apps/pfm/artifacts/raw-video/narration-1.aiff",
+      10.599892083031591
+    ],
+    [
+      "/Users/tanmayarora/truffles harness/apps/pfm/artifacts/raw-video/narration-2.aiff",
+      21.787997125007678
+    ],
+    [
+      "/Users/tanmayarora/truffles harness/apps/pfm/artifacts/raw-video/narration-3.aiff",
+      33.33020141598536
+    ],
+    [
+      "/Users/tanmayarora/truffles harness/apps/pfm/artifacts/raw-video/narration-4.aiff",
+      44.767664165992755
+    ],
+    [
+      "/Users/tanmayarora/truffles harness/apps/pfm/artifacts/raw-video/narration-5.aiff",
+      56.42889874998946
+    ],
+    [
+      "/Users/tanmayarora/truffles harness/apps/pfm/artifacts/raw-video/narration-6.aiff",
+      64.84264766599517
+    ],
+    [
+      "/Users/tanmayarora/truffles harness/apps/pfm/artifacts/voice-question.wav",
+      76.38692954101134
+    ],
+    [
+      "/Users/tanmayarora/truffles harness/apps/pfm/artifacts/demo-voice-answer.mp3",
+      84.31901325000217
+    ],
+    [
+      "/Users/tanmayarora/truffles harness/apps/pfm/artifacts/raw-video/narration-7.aiff",
+      93.95120704098372
+    ],
+    [
+      "/Users/tanmayarora/truffles harness/apps/pfm/artifacts/raw-video/narration-8.aiff",
+      105.75476120802341
+    ]
+  ]
+}

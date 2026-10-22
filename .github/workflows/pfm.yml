@@ -1,0 +1,19 @@
+name: pfm-offline
+on: [push, pull_request]
+jobs:
+  pfm:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.11', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+          enable-cache: true
+      - run: uv sync --project apps/pfm --python ${{ matrix.python-version }} --locked
+      - run: uv run --project apps/pfm ruff check apps/pfm
+      - run: uv run --project apps/pfm ruff format --check apps/pfm
+      - run: uv run --project apps/pfm pytest apps/pfm/tests --cov=truffles_pfm --cov-fail-under=85
+      - run: uv build --project apps/pfm

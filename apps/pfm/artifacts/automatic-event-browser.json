@@ -1,0 +1,5 @@
+{
+  "external_event_categorised": true,
+  "nudge_arrived_without_ui_action": true,
+  "poll_interval_seconds": 10
+}

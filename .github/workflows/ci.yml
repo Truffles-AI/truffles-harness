@@ -1,0 +1,24 @@
+name: tests
+on: [push, pull_request]
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.11', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+          enable-cache: true
+      - run: uv sync --python ${{ matrix.python-version }} --locked --extra providers --extra memory --extra qdrant --extra chroma --extra faiss
+      - run: uv run ruff check src tests examples scripts
+      - run: uv run ruff format --check src tests examples scripts
+      - run: uv run pytest --cov=truffles --cov-fail-under=90
+      - run: uv run python scripts/check_docs.py
+      - run: uv run python -m build
+      - run: uv run python examples/offline.py
+      - run: uv run python examples/async_team.py
+      - run: uv run python examples/local_qdrant.py
+      - run: uv run python examples/graph.py

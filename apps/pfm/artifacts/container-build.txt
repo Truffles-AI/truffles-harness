@@ -1,0 +1,139 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 757B 0.0s done
+#1 DONE 0.1s
+
+#2 [internal] load metadata for docker.io/library/python:3.12-slim
+#2 DONE 1.3s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 184B done
+#3 DONE 0.0s
+
+#4 [1/7] FROM docker.io/library/python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1
+#4 resolve docker.io/library/python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1 done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 38.92kB 0.0s done
+#5 DONE 0.0s
+
+#6 [4/7] COPY src ./src
+#6 CACHED
+
+#7 [3/7] COPY pyproject.toml README.md LICENSE ./
+#7 CACHED
+
+#8 [2/7] WORKDIR /opt/pfm
+#8 CACHED
+
+#9 [5/7] COPY apps/pfm/pyproject.toml apps/pfm/uv.lock ./apps/pfm/
+#9 CACHED
+
+#10 [6/7] COPY apps/pfm/src ./apps/pfm/src
+#10 DONE 0.0s
+
+#11 [7/7] RUN pip install --no-cache-dir uv==0.11.16 &&     uv sync --project apps/pfm --frozen --no-dev --no-editable &&     useradd --uid 10001 --create-home pfm &&     mkdir -p /data && chown pfm:pfm /data
+#11 2.393 Collecting uv==0.11.16
+#11 2.483   Downloading uv-0.11.16-py3-none-manylinux_2_28_aarch64.whl.metadata (11 kB)
+#11 2.494 Downloading uv-0.11.16-py3-none-manylinux_2_28_aarch64.whl (23.4 MB)
+#11 3.837    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 23.4/23.4 MB 17.6 MB/s eta 0:00:00
+#11 3.896 Installing collected packages: uv
+#11 4.191 Successfully installed uv-0.11.16
+#11 4.191 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#11 4.314
+#11 4.314 [notice] A new release of pip is available: 25.0.1 -> 26.2.2
+#11 4.314 [notice] To update, run: pip install --upgrade pip
+#11 4.711 Using CPython 3.12.15 interpreter at: /usr/local/bin/python3
+#11 4.711 Creating virtual environment at: apps/pfm/.venv
+#11 4.743    Building truffles @ file:///opt/pfm
+#11 4.743    Building truffles-pfm @ file:///opt/pfm/apps/pfm
+#11 4.939 Downloading zstandard (4.8MiB)
+#11 4.939 Downloading openai (2.2MiB)
+#11 4.939 Downloading cryptography (4.5MiB)
+#11 4.941 Downloading tiktoken (1.1MiB)
+#11 4.941 Downloading pydantic-core (2.0MiB)
+#11 5.428  Downloaded tiktoken
+#11 5.570  Downloaded pydantic-core
+#11 5.746  Downloaded zstandard
+#11 5.779  Downloaded cryptography
+#11 6.199  Downloaded openai
+#11 6.280       Built truffles-pfm @ file:///opt/pfm/apps/pfm
+#11 6.288       Built truffles @ file:///opt/pfm
+#11 6.293 Prepared 58 packages in 1.55s
+#11 6.352 Installed 58 packages in 57ms
+#11 6.353  + annotated-doc==0.0.5
+#11 6.353  + annotated-types==0.8.0
+#11 6.353  + anyio==4.15.1
+#11 6.353  + certifi==2026.10.19
+#11 6.353  + cffi==2.1.1
+#11 6.353  + charset-normalizer==3.5.2
+#11 6.353  + click==8.5.0
+#11 6.353  + cryptography==50.0.2
+#11 6.353  + distro==1.9.0
+#11 6.353  + fastapi==0.156.3
+#11 6.353  + h11==0.16.0
+#11 6.353  + httpcore==1.0.9
+#11 6.353  + httpcore2==2.15.1
+#11 6.353  + httpx==0.28.1
+#11 6.353  + httpx2==2.15.1
+#11 6.353  + idna==3.20
+#11 6.353  + jiter==0.17.0
+#11 6.353  + jsonpatch==1.36
+#11 6.353  + jsonpointer==3.4
+#11 6.353  + langchain==1.4.6
+#11 6.353  + langchain-core==1.6.12
+#11 6.353  + langchain-openai==1.7.2
+#11 6.353  + langchain-protocol==0.0.20
+#11 6.353  + langchain-text-splitters==1.1.3
+#11 6.353  + langgraph==1.2.16
+#11 6.353  + langgraph-checkpoint==4.3.0
+#11 6.353  + langgraph-prebuilt==1.1.1
+#11 6.353  + langgraph-sdk==0.4.8
+#11 6.353  + langsmith==0.14.11
+#11 6.353  + openai==3.35.1
+#11 6.353  + opentelemetry-api==1.45.1
+#11 6.353  + orjson==3.13.0
+#11 6.353  + ormsgpack==1.13.0
+#11 6.353  + packaging==26.3
+#11 6.353  + pycparser==3.11
+#11 6.353  + pydantic==2.14.1
+#11 6.353  + pydantic-core==2.50.1
+#11 6.353  + pyjwt==2.15.1
+#11 6.353  + python-multipart==0.0.32
+#11 6.353  + pyyaml==6.0.3
+#11 6.353  + regex==2026.9.29
+#11 6.353  + requests==2.34.2
+#11 6.354  + requests-toolbelt==1.0.0
+#11 6.354  + sniffio==1.3.1
+#11 6.354  + starlette==1.9.0
+#11 6.354  + tenacity==9.2.1
+#11 6.354  + tiktoken==0.14.0
+#11 6.354  + truffles==0.1.0 (from file:///opt/pfm)
+#11 6.354  + truffles-pfm==0.1.0 (from file:///opt/pfm/apps/pfm)
+#11 6.354  + truststore==0.10.5
+#11 6.354  + typing-extensions==4.16.0
+#11 6.354  + typing-inspection==0.4.4
+#11 6.354  + urllib3==2.8.0
+#11 6.354  + uuid-utils==0.18.0
+#11 6.354  + uvicorn==0.54.0
+#11 6.354  + websockets==16.1.1
+#11 6.354  + xxhash==4.0.2
+#11 6.354  + zstandard==0.25.0
+#11 DONE 6.6s
+
+#12 exporting to image
+#12 exporting layers
+#12 exporting layers 5.6s done
+#12 exporting manifest sha256:463fee5b1b385dba948fb9300431f9a72985ac1d28f9406c206e694cb851af7b 0.0s done
+#12 exporting config sha256:e98223be533aa6e83af0085221e13287910ebb488f881f77bcbcce76a500ad49 0.0s done
+#12 exporting attestation manifest sha256:b344b0f736d7766ab6bcbadd7a65c3a8f00a65f5362783a83e3b21accab50534 0.0s done
+#12 exporting manifest list sha256:37a537e09a635b0da9aa8c015034db470598d091139fee698c8b6bca60eae66d 0.0s done
+#12 naming to docker.io/library/truffles-pfm:local
+#12 naming to docker.io/library/truffles-pfm:local done
+#12 unpacking to docker.io/library/truffles-pfm:local
+#12 unpacking to docker.io/library/truffles-pfm:local 1.5s done
+#12 DONE 7.4s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/k7ygtm05qcstnb5c5ewce72jw

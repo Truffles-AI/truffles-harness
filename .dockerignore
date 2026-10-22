@@ -1,0 +1,15 @@
+.venv
+**/.venv
+**/__pycache__
+**/.pytest_cache
+**/.ruff_cache
+.pfm
+.env
+.env.*
+**/.env
+**/.env.*
+dist
+build
+apps/pfm/artifacts
+.coverage
+.git

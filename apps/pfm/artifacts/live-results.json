@@ -1,0 +1,55 @@
+{
+  "synthetic_only": true,
+  "model": "openai:gpt-4.1-mini",
+  "tests": [
+    {
+      "question": "Summarise my spending this month",
+      "intent": "summary",
+      "answer": "In 2026-10, your income was ₹95,000.00, net spending was ₹33,539.00, and cash surplus was ₹61,461.00. This is cash flow, not your account balance. Largest spending category: Rent (₹22,000.00).",
+      "mode": "truffles"
+    },
+    {
+      "question": "How much did I spend on dining?",
+      "intent": "category",
+      "answer": "2026-10: Dining — ₹2,880.00. Net of refunds in this month.",
+      "mode": "truffles"
+    },
+    {
+      "question": "How much cash surplus do I have this month?",
+      "intent": "savings",
+      "answer": "2026-10: cash surplus ₹61,461.00. This is income minus net spending, not a bank balance or a guaranteed amount available to save. Transfers are excluded.",
+      "mode": "truffles"
+    },
+    {
+      "question": "How are my savings goals doing?",
+      "intent": "goals",
+      "answer": "Emergency fund: ₹75,000.00 / ₹3,00,000.00 (25%). Remaining ₹2,25,000.00; illustrative daily plan ₹616.44 until 2027-10-21.\nThese are tracking goals; no money has been moved.",
+      "mode": "truffles"
+    },
+    {
+      "question": "इस महीने मेरे खर्च का सारांश बताओ",
+      "intent": "summary",
+      "answer": "2026-10 में आय ₹95,000.00, खर्च ₹33,539.00 और नकदी अधिशेष ₹61,461.00 है। यह खाते का बैलेंस नहीं है। सबसे बड़ा खर्च: Rent (₹22,000.00).",
+      "mode": "truffles"
+    },
+    {
+      "question": "Transfer money to another customer",
+      "intent": "unsupported",
+      "answer": "I can explain your spending and goals. Payments, investments, credit decisions and other customers' records are outside this assistant. Use your bank's authorised service.",
+      "mode": "truffles"
+    }
+  ],
+  "classification": {
+    "merchant": "Saffron Leaf Vegetarian Restaurant",
+    "category": "Dining",
+    "source": "model_suggestion",
+    "needs_review": true
+  },
+  "voice": {
+    "transcript": "How much did I spend on dining this month?",
+    "answer": "2026-10: Dining — ₹3,230.00. Net of refunds in this month.",
+    "mode": "truffles",
+    "audio_bytes": 91008
+  },
+  "completed_at": "2026-10-20T22:53:13.975245+00:00"
+}

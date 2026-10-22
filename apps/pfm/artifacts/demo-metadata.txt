@@ -1,0 +1,48 @@
+;FFMETADATA1
+title=Truffles PFM - IB3 synthetic demonstration
+comment=Live synthetic application; computer-generated narration.
+[CHAPTER]
+TIMEBASE=1/1000
+START=307
+END=10600
+title=IB3 / Conversational personal finance
+[CHAPTER]
+TIMEBASE=1/1000
+START=10600
+END=21788
+title=Chat grounded in ledger facts
+[CHAPTER]
+TIMEBASE=1/1000
+START=21788
+END=33330
+title=Incoming payment → category → budget nudge
+[CHAPTER]
+TIMEBASE=1/1000
+START=33330
+END=44768
+title=Unfamiliar merchant → reviewable AI category
+[CHAPTER]
+TIMEBASE=1/1000
+START=44768
+END=56429
+title=Customer-controlled savings goals
+[CHAPTER]
+TIMEBASE=1/1000
+START=56429
+END=64843
+title=Hindi summary, same financial facts
+[CHAPTER]
+TIMEBASE=1/1000
+START=64843
+END=93951
+title=Opt-in voice, through Truffles
+[CHAPTER]
+TIMEBASE=1/1000
+START=93951
+END=105755
+title=Auditable changes and visible fallback
+[CHAPTER]
+TIMEBASE=1/1000
+START=105755
+END=119160
+title=Ready for bank integration review

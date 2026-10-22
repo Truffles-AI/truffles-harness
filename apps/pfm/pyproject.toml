@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "truffles-pfm"
+version = "0.1.0"
+description = "IB3 reference PFM application built exclusively on the Truffles AI harness"
+requires-python = ">=3.11"
+dependencies = ["truffles[openai,audio]>=0.1.0", "fastapi>=0.115,<1", "uvicorn>=0.34,<1", "PyJWT[crypto]>=2.10,<3", "python-multipart>=0.0.20,<1"]
+
+[project.scripts]
+truffles-pfm = "truffles_pfm.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/truffles_pfm"]
+
+[dependency-groups]
+dev = ["pytest>=9,<10", "pytest-cov>=7,<8", "pytest-socket>=0.7,<1", "pytest-asyncio>=1,<2", "ruff>=0.17,<1", "httpx>=0.28,<1", "playwright>=1.50,<2"]
+
+[tool.uv.sources]
+truffles = { path = "../..", editable = true }

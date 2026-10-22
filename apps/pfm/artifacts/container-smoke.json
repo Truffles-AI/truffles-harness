@@ -1,0 +1,6 @@
+{
+  "read_only_container_demo": "passed",
+  "fallback_summary": "passed",
+  "non_root_uid": "10001",
+  "bank_mode_missing_identity_rejected": "passed"
+}

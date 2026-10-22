@@ -1,0 +1,35 @@
+1
+00:00:00,307 --> 00:00:10,500
+This is Truffles, a personal finance assistant for the I B three banking use case. Everything shown here uses synthetic Indian banking data.
+
+2
+00:00:10,600 --> 00:00:21,688
+Ask for a monthly summary. Truffles interprets the question with OpenAI, while ordinary application code calculates every financial amount from the ledger.
+
+3
+00:00:21,788 --> 00:00:33,230
+A new Swiggy payment arrives. The service categorises it automatically, updates the ledger, and creates a budget nudge. Common merchants need no model request.
+
+4
+00:00:33,330 --> 00:00:44,668
+An unfamiliar restaurant goes through the Truffles classification agent. The suggestion is clearly marked for customer review. The model cannot change amounts or move money.
+
+5
+00:00:44,768 --> 00:00:56,329
+Create a holiday goal with a target and an amount already saved. The assistant explains progress and an illustrative daily plan. Creating a goal does not transfer funds.
+
+6
+00:00:56,429 --> 00:01:04,743
+The same assistant can answer in Hindi. The numbers still come from the same scoped ledger and deterministic calculations.
+
+7
+00:01:04,843 --> 00:01:33,851
+Voice is optional. After consent, this synthetic recording is transcribed through Truffles. The answer can then be played using an explicitly identified AI voice.
+
+8
+00:01:33,951 --> 00:01:45,655
+The activity trail records changes without raw conversations or credentials. If AI is disabled or unavailable, the interface clearly labels its local fallback.
+
+9
+00:01:45,755 --> 00:01:59,060
+This working reference supports a bank-hosted compatible model. Production rollout still requires the bank identity gateway, managed storage, security assessment, and model qualification.

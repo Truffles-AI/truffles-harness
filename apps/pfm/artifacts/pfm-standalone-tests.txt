@@ -1,0 +1,23 @@
+.................................................................        [100%]
+================================ tests coverage ================================
+______________ coverage: platform darwin, python 3.12.13-final-0 _______________
+
+Name                                          Stmts   Miss Branch BrPart  Cover   Missing
+-----------------------------------------------------------------------------------------
+apps/pfm/src/truffles_pfm/__main__.py             8      8      2      0     0%   3-22
+apps/pfm/src/truffles_pfm/api.py                210     22     50     11    86%   47, 54->44, 81, 95, 97, 119-120, 154, 176-184, 278, 299, 322, 326-327, 337
+apps/pfm/src/truffles_pfm/categorization.py      18      0     12      0   100%
+apps/pfm/src/truffles_pfm/config.py              41      5     16      3    86%   29, 31, 38, 46-47
+apps/pfm/src/truffles_pfm/domain.py             116      0     14      0   100%
+apps/pfm/src/truffles_pfm/intelligence.py        81      6     26      6    89%   55, 110, 121, 134, 136, 137->142, 141
+apps/pfm/src/truffles_pfm/ports.py                5      0      0      0   100%
+apps/pfm/src/truffles_pfm/repository.py          61      0      4      0   100%
+apps/pfm/src/truffles_pfm/security.py            53      3     20      3    92%   40, 76, 82
+apps/pfm/src/truffles_pfm/seed.py                19      1      6      1    92%   14
+apps/pfm/src/truffles_pfm/service.py            203      4     84      4    97%   52, 194, 196, 334
+-----------------------------------------------------------------------------------------
+TOTAL                                           815     49    234     28    92%
+
+1 empty file skipped.
+Required test coverage of 85% reached. Total coverage: 92.09%
+65 passed in 5.21s

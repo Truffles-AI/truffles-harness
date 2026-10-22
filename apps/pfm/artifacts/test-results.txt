@@ -1,0 +1,41 @@
+........................................................................ [ 39%]
+........................................................................ [ 78%]
+.......................................                                  [100%]
+=============================== warnings summary ===============================
+tests/test_retrieval.py::test_additional_local_stores[similarity-faiss]
+  /Users/tanmayarora/.local/share/uv/python/cpython-3.12.13-macos-aarch64-none/lib/python3.12/importlib/__init__.py:90: DeprecationWarning: `langchain-community` is being sunset and is no longer actively maintained. See https://github.com/langchain-ai/langchain-community/issues/674 for details and migration guidance toward standalone integration packages.
+    return _bootstrap._gcd_import(name[level:], package, level)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================================ tests coverage ================================
+______________ coverage: platform darwin, python 3.12.13-final-0 _______________
+
+Name                                          Stmts   Miss Branch BrPart  Cover   Missing
+-----------------------------------------------------------------------------------------
+apps/pfm/src/truffles_pfm/__main__.py             8      8      2      0     0%   3-22
+apps/pfm/src/truffles_pfm/api.py                210     13     50     10    91%   47, 54->44, 81, 95, 97, 119-120, 154, 278, 299, 322, 326-327, 337
+apps/pfm/src/truffles_pfm/categorization.py      18      0     12      0   100%
+apps/pfm/src/truffles_pfm/config.py              41      5     16      3    86%   29, 31, 38, 46-47
+apps/pfm/src/truffles_pfm/domain.py             116      0     14      0   100%
+apps/pfm/src/truffles_pfm/intelligence.py        81      6     26      6    89%   55, 110, 121, 134, 136, 137->142, 141
+apps/pfm/src/truffles_pfm/ports.py                5      0      0      0   100%
+apps/pfm/src/truffles_pfm/repository.py          61      0      4      0   100%
+apps/pfm/src/truffles_pfm/security.py            53      3     20      3    92%   40, 76, 82
+apps/pfm/src/truffles_pfm/seed.py                19      1      6      1    92%   14
+apps/pfm/src/truffles_pfm/service.py            203      6     84      4    96%   51-53, 194, 196, 334
+src/truffles/__init__.py                         13      0      2      0   100%
+src/truffles/agents.py                           74      0     26      0   100%
+src/truffles/knowledge.py                        98      0     36      0   100%
+src/truffles/providers.py                        58      1     24      1    98%   36
+src/truffles/results.py                          35      0     10      0   100%
+src/truffles/retrieval.py                       137      0     36      0   100%
+src/truffles/search.py                           68      0     24      1    99%   91->93
+src/truffles/speech.py                           35      4     14      0    88%   28-31
+src/truffles/stores.py                           21      0      8      0   100%
+src/truffles/testing.py                          46      0      6      0   100%
+src/truffles/workflows.py                        43      0     14      0   100%
+-----------------------------------------------------------------------------------------
+TOTAL                                          1443     47    434     29    96%
+
+1 empty file skipped.
+183 passed, 1 warning in 11.82s

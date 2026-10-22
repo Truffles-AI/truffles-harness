@@ -1,0 +1,7 @@
+{
+  "category": "Dining",
+  "nudge": "Dining spending is ₹4,330.00 against your ₹5,000.00 monthly budget. You have used at least 80%. Review your recent transactions when convenient.",
+  "answer": "In 2026-10, your income was ₹95,000.00, net spending was ₹34,989.00, and cash surplus was ₹60,011.00. This is cash flow, not your account balance. Largest spending category: Rent (₹22,000.00).",
+  "mode": "fallback",
+  "model_calls": 0
+}

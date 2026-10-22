@@ -1,0 +1,108 @@
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'apps/pfm/artifacts/truffles-pfm-demo.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    title           : Truffles PFM - IB3 synthetic demonstration
+    encoder         : Lavf63.1.101
+    comment         : Live synthetic application; computer-generated narration.
+  Duration: 00:01:59.20, start: 0.000000, bitrate: 297 kb/s
+  Chapters:
+    Chapter #0:0: start 0.000000, end 10.600000
+      Metadata:
+        title           : IB3 / Conversational personal finance
+    Chapter #0:1: start 10.600000, end 21.788000
+      Metadata:
+        title           : Chat grounded in ledger facts
+    Chapter #0:2: start 21.788000, end 33.330000
+      Metadata:
+        title           : Incoming payment → category → budget nudge
+    Chapter #0:3: start 33.330000, end 44.768000
+      Metadata:
+        title           : Unfamiliar merchant → reviewable AI category
+    Chapter #0:4: start 44.768000, end 56.429000
+      Metadata:
+        title           : Customer-controlled savings goals
+    Chapter #0:5: start 56.429000, end 64.843000
+      Metadata:
+        title           : Hindi summary, same financial facts
+    Chapter #0:6: start 64.843000, end 93.951000
+      Metadata:
+        title           : Opt-in voice, through Truffles
+    Chapter #0:7: start 93.951000, end 105.755000
+      Metadata:
+        title           : Auditable changes and visible fallback
+    Chapter #0:8: start 105.755000, end 119.160000
+      Metadata:
+        title           : Ready for bank integration review
+  Stream #0:0[0x1](eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1440x1000 [SAR 1:1 DAR 36:25], 202 kb/s, 25 fps, 25 tbr, 12800 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      encoder         : Lavc63.1.101 libx264
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 24000 Hz, mono, fltp, 89 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+  Stream #0:2[0x3](eng): Subtitle: mov_text (tx3g / 0x67337874), 0 kb/s (default)
+    Metadata:
+      handler_name    : SubtitleHandler
+  Stream #0:3[0x4](eng): Data: bin_data (text / 0x74786574), 0 kb/s
+    Metadata:
+      handler_name    : SubtitleHandler
+[Parsed_volumedetect_0 @ 0xa85049740] n_samples: 0
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> wrapped_avframe (native))
+  Stream #0:1 -> #0:1 (aac (native) -> pcm_s16le (native))
+Press [q] to stop, [?] for help
+Output #0, null, to 'pipe:':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    title           : Truffles PFM - IB3 synthetic demonstration
+    comment         : Live synthetic application; computer-generated narration.
+    encoder         : Lavf63.1.101
+  Chapters:
+    Chapter #0:0: start 0.000000, end 10.600000
+      Metadata:
+        title           : IB3 / Conversational personal finance
+    Chapter #0:1: start 10.600000, end 21.788000
+      Metadata:
+        title           : Chat grounded in ledger facts
+    Chapter #0:2: start 21.788000, end 33.330000
+      Metadata:
+        title           : Incoming payment → category → budget nudge
+    Chapter #0:3: start 33.330000, end 44.768000
+      Metadata:
+        title           : Unfamiliar merchant → reviewable AI category
+    Chapter #0:4: start 44.768000, end 56.429000
+      Metadata:
+        title           : Customer-controlled savings goals
+    Chapter #0:5: start 56.429000, end 64.843000
+      Metadata:
+        title           : Hindi summary, same financial facts
+    Chapter #0:6: start 64.843000, end 93.951000
+      Metadata:
+        title           : Opt-in voice, through Truffles
+    Chapter #0:7: start 93.951000, end 105.755000
+      Metadata:
+        title           : Auditable changes and visible fallback
+    Chapter #0:8: start 105.755000, end 119.160000
+      Metadata:
+        title           : Ready for bank integration review
+  Stream #0:0(eng): Video: wrapped_avframe, yuv420p(progressive), 1440x1000 [SAR 1:1 DAR 36:25], q=2-31, 200 kb/s, 25 fps, 25 tbn (default)
+    Metadata:
+      encoder         : Lavc63.1.101 wrapped_avframe
+      handler_name    : VideoHandler
+  Stream #0:1(und): Audio: pcm_s16le, 24000 Hz, mono, s16, 384 kb/s (default)
+    Metadata:
+      encoder         : Lavc63.1.101 pcm_s16le
+      handler_name    : SoundHandler
+frame= 1786 fps=0.0 q=-0.0 size=N/A time=00:01:11.55 bitrate=N/A speed= 142x elapsed=0:00:00.50
+[Parsed_volumedetect_0 @ 0xa85049f80] n_samples: 2859869
+[Parsed_volumedetect_0 @ 0xa85049f80] mean_volume: -17.1 dB
+[Parsed_volumedetect_0 @ 0xa85049f80] max_volume: -1.4 dB
+[Parsed_volumedetect_0 @ 0xa85049f80] histogram_1db: 32
+[Parsed_volumedetect_0 @ 0xa85049f80] histogram_2db: 778
+[Parsed_volumedetect_0 @ 0xa85049f80] histogram_3db: 3485
+[out#0/null @ 0xa85048480] video:1234KiB audio:5586KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown
+frame= 2980 fps=0.0 q=-0.0 Lsize=N/A time=00:01:59.20 bitrate=N/A speed= 148x elapsed=0:00:00.80

@@ -1,0 +1,9 @@
+{
+  "synthetic_events": 1000,
+  "ai_calls": 0,
+  "ingest_median_ms": 0.028,
+  "ingest_p95_ms": 0.042,
+  "summary_1000_ms": 2.546,
+  "net_spend_paise": 12345000,
+  "scope": "single process, in-memory SQLite; no network; not an SLA"
+}
