@@ -20,7 +20,14 @@ Python **3.11+** · MIT license · Optional provider and vector-store dependenci
 
 This project is **not published on PyPI**. Install from this repository; do not
 assume an unrelated package named `truffles` on a package registry is this library.
-Access to the private `Truffles-AI` repository is required to clone it.
+Install the released wheel directly, without cloning the repository:
+
+```bash
+python -m pip install 'truffles[openai] @ https://github.com/Truffles-AI/truffles-harness/releases/download/v0.1.0/truffles-0.1.0-py3-none-any.whl'
+```
+
+Replace `[openai]` with the extras you need, or omit it for the core library.
+Alternatively, clone the public repository for an editable installation:
 
 ```bash
 git clone https://github.com/Truffles-AI/truffles-harness.git
