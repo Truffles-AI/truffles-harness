@@ -176,3 +176,36 @@ combined run passes 183 tests with coverage rounded to 96%; the original results
 retained as historical harness validation. See [PFM evidence](../apps/pfm/docs/testing.md)
 for the current full test logs, live synthetic model/audio checks, browser recording,
 standalone locked installation and container smoke checks.
+
+## Evaluation and observability extension — 2026-10-27
+
+Added dataset evaluation, deterministic metrics, retrieval recall, optional LLM
+judging, async workers, report gates, native tracing and content-free JSONL export.
+No runtime dependency was added. Local validation used Python 3.12:
+
+```text
+pytest tests apps/pfm/tests --cov=truffles --cov=truffles_pfm --cov-report=term-missing --cov-fail-under=90 -q
+213 passed, 1 warning in 8.31s
+Total coverage: 96.30%
+
+pytest tests/test_evaluation.py tests/test_observability.py --cov=truffles.evaluation --cov=truffles.observability --cov-report=term-missing -q
+30 passed in 0.78s
+New modules combined coverage: 98% (rounded)
+
+pytest tests/test_provider_contracts.py -q
+30 passed in 1.93s
+
+ruff check src tests examples scripts apps/pfm
+All checks passed!
+ruff format --check src tests examples scripts apps/pfm
+59 files already formatted
+python scripts/check_docs.py
+Checked 31 Markdown files and 59 Python snippets.
+```
+
+The remaining warning is the upstream `langchain-community` deprecation associated
+with the FAISS adapter. The offline evaluation example passed its answer,
+retrieval and scripted-judge gates and wrote reports/traces to an ignored local
+directory. A fresh wheel/source build succeeded; the wheel includes both new
+modules. No live judge call, hosted telemetry export, distributed load test or
+model-quality benchmark was performed for this extension.

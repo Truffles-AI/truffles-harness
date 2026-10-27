@@ -20,6 +20,8 @@ LangGraph. Start with the offline example before configuring any provider.
 | [Testing](testing.md) | Offline doubles, HTTP contracts, CI and reproducible commands |
 | [Compatibility](compatibility.md) | Tested capabilities, optional integrations and limitations |
 | [Sources](sources.md) | Official API references used for contract checks |
+| [Evaluation](evaluation.md) | Datasets, deterministic metrics, retrieval recall, LLM judging and CI gates |
+| [Observability](observability.md) | Bounded native traces, token usage, privacy and JSONL/custom sinks |
 | [Validation report](validation.md) | Recorded build, tests and example results |
 
 Examples live in [examples](../examples/README.md). All code uses the local

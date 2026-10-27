@@ -75,3 +75,16 @@ For meaningful RAG evaluation, add domain-specific expected retrieval sets and
 answer-grounding checks. Hash embeddings validate plumbing, not semantic quality.
 Use your chosen production embeddings in an explicitly authorized integration
 suite when that evaluation is needed.
+
+## Evaluation and observability tests
+
+`tests/test_evaluation.py` checks deterministic and semantic-judge contracts,
+retrieval recall, invalid scores, target/scorer failures, report privacy, CI gates,
+async concurrency, stable ordering and cancellation. `tests/test_observability.py`
+executes real agent/tool graphs, parallel workflows, retrieval and streaming to
+verify span ancestry, per-call usage, bounded buffers, export failures and thread
+safety. Provider contract tests additionally assert observed model/tool counts and
+usage for the OpenAI, Groq, xAI and Anthropic adapters over stubbed HTTP.
+
+`examples/evaluation.py` is a credential-free CI example. Its scripted judge only
+tests the judging interface; it does not assess a live model's answer quality.

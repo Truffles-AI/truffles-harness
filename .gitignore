@@ -16,3 +16,5 @@ build/
 
 .pfm/
 apps/pfm/artifacts/raw-video/
+
+.truffles/

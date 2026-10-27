@@ -11,7 +11,7 @@ import httpx
 import pytest
 from langchain_core.messages import AIMessage
 
-from truffles import agent, chat_model, embeddings, search_tool, tool
+from truffles import Observer, agent, chat_model, embeddings, search_tool, tool
 
 pytestmark = pytest.mark.contract
 
@@ -76,7 +76,15 @@ async def test_openai_compatible_tool_roundtrip(respx_mock, provider, model, url
     if provider != "groq":
         options["use_responses_api"] = False
     bot = agent(f"{provider}:{model}", tools=[add], model_options=options)
-    result = await bot.arun("2 + 3?") if async_mode else bot.run("2 + 3?")
+    observer = Observer()
+    config = {"callbacks": [observer]}
+    result = (
+        await bot.arun("2 + 3?", config=config) if async_mode else bot.run("2 + 3?", config=config)
+    )
+    assert observer.summary()["model_calls"] == 2
+    assert observer.summary()["tool_calls"] == 1
+    assert observer.summary()["usage"]["total_tokens"] == 30
+    assert observer.summary()["active"] == 0
     assert result.text == "5" and route.call_count == 2
     assert requests[1]["messages"][-1] == {
         "role": "tool",
@@ -124,7 +132,15 @@ async def test_anthropic_tool_roundtrip(respx_mock, async_mode):
         instructions="Calculate carefully.",
         model_options={"max_tokens": 128, "max_retries": 0},
     )
-    result = await bot.arun("2 + 3?") if async_mode else bot.run("2 + 3?")
+    observer = Observer()
+    config = {"callbacks": [observer]}
+    result = (
+        await bot.arun("2 + 3?", config=config) if async_mode else bot.run("2 + 3?", config=config)
+    )
+    assert observer.summary()["model_calls"] == 2
+    assert observer.summary()["tool_calls"] == 1
+    assert observer.summary()["usage"]["total_tokens"] == 30
+    assert observer.summary()["active"] == 0
     assert result.text == "5"
     returned = requests[1]["messages"][-1]
     assert returned["role"] == "user"
@@ -185,7 +201,15 @@ async def test_gemini_tool_roundtrip(respx_mock, async_mode):
             "client_args": {"transport": httpx.MockTransport(respx_mock.handler)},
         },
     )
-    result = await bot.arun("2 + 3?") if async_mode else bot.run("2 + 3?")
+    observer = Observer()
+    config = {"callbacks": [observer]}
+    result = (
+        await bot.arun("2 + 3?", config=config) if async_mode else bot.run("2 + 3?", config=config)
+    )
+    assert observer.summary()["model_calls"] == 2
+    assert observer.summary()["tool_calls"] == 1
+    assert observer.summary()["usage"]["total_tokens"] == 30
+    assert observer.summary()["active"] == 0
     assert result.text == "5"
     returned = requests[1]["contents"][-1]["parts"][0]["functionResponse"]
     assert returned["name"] == "add"

@@ -22,3 +22,4 @@ jobs:
       - run: uv run python examples/async_team.py
       - run: uv run python examples/local_qdrant.py
       - run: uv run python examples/graph.py
+      - run: uv run python examples/evaluation.py

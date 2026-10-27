@@ -166,6 +166,38 @@ These examples use deterministic test doubles, not live inference. They demonstr
 tool execution, RAG, pipelines, parallel teams, delegation and native graphs.
 [More examples](examples/README.md).
 
+## Evaluate and observe
+
+Evaluate agents, workflows or retrievers against a dataset and fail CI on regressions:
+
+```python
+from truffles import EvalCase, evaluate, exact_match
+
+report = evaluate(str.upper, [EvalCase("hello", "HELLO", id="greeting")],
+                  evaluators={"accuracy": exact_match})
+report.assert_passed()
+report.save("evaluation.json")
+```
+
+Built-in checks cover exact answers, substrings, JSON/schema validity and retrieval
+recall. Add business-specific scorers or an opt-in LLM judge through Truffles.
+`aevaluate` supports bounded concurrency. Reports include pass rates, target latency,
+observed token usage and errors; saved reports omit outputs by default.
+
+```python
+from truffles import Observer, agent
+
+observer = Observer()
+bot = agent("openai:gpt-4.1-mini")
+bot.run("Explain RAG.", config={"callbacks": [observer]})
+print(observer.summary())
+```
+
+The observer captures parent-child spans for graphs, models, tools and retrieval
+without recording prompts or answers. Export to local JSONL or a custom sink;
+existing native monitoring callbacks can run alongside it.
+[Evaluation guide](docs/evaluation.md) · [Observability guide](docs/observability.md)
+
 ## Banking reference application: IB3 PFM
 
 The included [PFM application](apps/pfm/README.md) demonstrates automatic transaction

@@ -9,6 +9,20 @@ from typing import TYPE_CHECKING
 __version__ = "0.1.0"
 
 _EXPORTS = {
+    "EvalCase": ".evaluation",
+    "Score": ".evaluation",
+    "EvalRow": ".evaluation",
+    "EvalReport": ".evaluation",
+    "evaluate": ".evaluation",
+    "aevaluate": ".evaluation",
+    "exact_match": ".evaluation",
+    "contains_expected": ".evaluation",
+    "json_valid": ".evaluation",
+    "retrieval_recall": ".evaluation",
+    "llm_judge": ".evaluation",
+    "Observer": ".observability",
+    "Span": ".observability",
+    "JSONLTraceSink": ".observability",
     "Agent": ".agents",
     "agent": ".agents",
     "speech_model": ".speech",
@@ -62,9 +76,23 @@ if TYPE_CHECKING:
 
     from .agents import Agent as Agent
     from .agents import agent as agent
+    from .evaluation import EvalCase as EvalCase
+    from .evaluation import EvalReport as EvalReport
+    from .evaluation import EvalRow as EvalRow
+    from .evaluation import Score as Score
+    from .evaluation import aevaluate as aevaluate
+    from .evaluation import contains_expected as contains_expected
+    from .evaluation import evaluate as evaluate
+    from .evaluation import exact_match as exact_match
+    from .evaluation import json_valid as json_valid
+    from .evaluation import llm_judge as llm_judge
+    from .evaluation import retrieval_recall as retrieval_recall
     from .knowledge import RAG as RAG
     from .knowledge import rag as rag
     from .knowledge import split as split
+    from .observability import JSONLTraceSink as JSONLTraceSink
+    from .observability import Observer as Observer
+    from .observability import Span as Span
     from .providers import (
         chat_model as chat_model,
     )

@@ -130,3 +130,29 @@ Perplexity defaults to Sonar; xAI/Grok requires an explicit model. See
 `truffles.testing.ScriptedChatModel(responses=[AIMessage(...)])` and
 `HashEmbeddings(dimensions=64)` are explicit test utilities, never automatic
 production fallbacks.
+
+## Evaluation
+
+- `EvalCase(input, expected=None, id=<generated UUID>, reference_ids=(), config={})`
+- `Score(value, threshold=1.0, reason=None)`; `.passed` compares value to threshold.
+- `evaluate(target, cases, *, evaluators, config=None) -> EvalReport`
+- `aevaluate(target, cases, *, evaluators, max_concurrency=4, config=None) -> EvalReport`
+- `exact_match(case, output)`, `contains_expected(case, output)`
+- `json_valid(schema=None)`, `retrieval_recall(k=5, id_key=None, threshold=1.0)`
+- `llm_judge(model, *, rubric, threshold=0.8, max_input_chars=20000, model_options=None)`
+- `EvalReport.rows`, `.summary`, `.assert_passed(min_pass_rate=1.0, max_p95_ms=None)`,
+  `.to_dict(include_content=False)`, `.save(path, include_content=False)`.
+
+An `EvalRow` holds case ID, output, named scores, latency, trace ID, usage, target
+error type and scorer error types. See [evaluation](evaluation.md) for execution,
+privacy, scoring and concurrency contracts.
+
+## Observability
+
+- `Observer(max_spans=1000, max_active=1000, sink=None)`: native callback handler.
+- `.spans`: completed `Span` snapshots; `.summary()`: lifetime counters and usage.
+- `Span.to_dict()`: serializable completed operation, without input/output content.
+- `JSONLTraceSink(path)`: callable sink for local JSONL export.
+
+Pass `config={"callbacks": [observer]}` to agent or native workflow execution.
+See [observability](observability.md) for bounded storage and export semantics.
