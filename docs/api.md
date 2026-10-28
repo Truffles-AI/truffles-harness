@@ -156,3 +156,18 @@ privacy, scoring and concurrency contracts.
 
 Pass `config={"callbacks": [observer]}` to agent or native workflow execution.
 See [observability](observability.md) for bounded storage and export semantics.
+
+## Basic processing (0.2.0)
+
+- `ProcessingLimits(max_bytes=20971520, max_pages=50, max_pixels=25000000, max_chars=200000)`
+- `ocr(source, *, language="eng", psm=3, timeout=30, preprocess=True, limits=None) -> Document`
+- `read_documents(path, *, pdf_mode="auto", language="eng", psm=3, timeout=30, dpi=200,
+  password=None, encoding="utf-8", limits=None) -> list[Document]`
+- `transcribe(source, *, speech=None, filename=None, language=None, limits=None) -> Document`
+- `processing_tools(root, *, speech=None, language="eng", transcription_language=None,
+  limits=None, max_tool_chars=12000, pdf_mode="auto") -> list[StructuredTool]`
+
+OCR/audio sources may be paths or bytes; `read_documents` takes a file path.
+PDF page metadata is one-based. Tools return bounded model-visible text and full
+bounded Document artifacts. See [processing](processing.md) for installation,
+resource limits, local/remote boundaries and native-engine requirements.

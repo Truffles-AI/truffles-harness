@@ -23,7 +23,7 @@ assume an unrelated package named `truffles` on a package registry is this libra
 Install the released wheel directly, without cloning the repository:
 
 ```bash
-python -m pip install 'truffles[openai] @ https://github.com/Truffles-AI/truffles-harness/releases/download/v0.1.0/truffles-0.1.0-py3-none-any.whl'
+python -m pip install 'truffles[openai] @ https://github.com/Truffles-AI/truffles-harness/releases/download/v0.2.0/truffles-0.2.0-py3-none-any.whl'
 ```
 
 Replace `[openai]` with the extras you need, or omit it for the core library.
@@ -173,6 +173,24 @@ These examples use deterministic test doubles, not live inference. They demonstr
 tool execution, RAG, pipelines, parallel teams, delegation and native graphs.
 [More examples](examples/README.md).
 
+## Process images, documents and audio
+
+Install the `processing` extra and the Tesseract system executable for local OCR:
+
+```python
+from truffles import ocr, read_documents, transcribe
+
+image_text = ocr("invoice.png")
+pages = read_documents("statement.pdf")  # Text extraction + OCR for textless pages
+transcript = transcribe("meeting.wav")  # Configured OpenAI speech endpoint by default
+```
+
+Each processor returns a native Document (or a list for `read_documents`), ready
+for RAG. Use `processing_tools("./uploads")` to give an agent directory-scoped file
+reading and OCR; supply a speech adapter to enable its transcription tool.
+[Processing guide](docs/processing.md) covers setup, custom speech endpoints, input
+limits and the distinction between local processing and external transcription.
+
 ## Evaluate and observe
 
 Evaluate agents, workflows or retrievers against a dataset and fail CI on regressions:
@@ -234,7 +252,7 @@ records these boundaries explicitly.
 ## Development and tests
 
 ```bash
-uv sync --locked --extra providers --extra memory --extra qdrant --extra chroma --extra faiss
+uv sync --locked --extra providers --extra memory --extra qdrant --extra chroma --extra faiss --extra processing
 uv run ruff check src tests examples scripts
 uv run ruff format --check src tests examples scripts
 uv run pytest --cov=truffles --cov-fail-under=90
@@ -251,6 +269,9 @@ uv run --project apps/pfm ruff format --check apps/pfm
 uv run --project apps/pfm pytest apps/pfm/tests --cov=truffles_pfm --cov-fail-under=85
 uv build --project apps/pfm
 ```
+
+Install the Tesseract executable before running the real OCR checks
+(`brew install tesseract` on macOS or `apt-get install tesseract-ocr` on Ubuntu).
 
 GitHub Actions runs both suites on Python 3.11, 3.12 and 3.13. Provider contract
 tests use real adapters with synthetic keys and intercepted HTTP; pytest disables

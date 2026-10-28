@@ -3,12 +3,14 @@
 All programs run without credentials or network calls after installation.
 
 ```bash
-uv sync --locked --extra providers --extra memory --extra qdrant --extra chroma --extra faiss
+uv sync --locked --extra providers --extra memory --extra qdrant --extra chroma --extra faiss --extra processing
 uv run python examples/offline.py
 uv run python examples/async_team.py
 uv run python examples/local_qdrant.py
 uv run python examples/graph.py
 uv run python examples/evaluation.py
+# Requires the processing extra and the Tesseract executable:
+uv run python examples/processing.py
 ```
 
 `offline.py` exercises a real graph-based tool loop, retrieval/generation, a linear
@@ -23,3 +25,6 @@ them with a configured live model and real semantic embeddings in an application
 `evaluation.py` runs answer, retrieval and scripted-judge evaluations with regression
 gates and content-free trace exports under `.truffles/evaluation/`. See the
 [evaluation guide](../docs/evaluation.md) and [observability guide](../docs/observability.md).
+
+`processing.py` uses real local Tesseract and PDFium on generated documents, with
+scripted agent and speech adapters. [Processing setup and limits](../docs/processing.md).

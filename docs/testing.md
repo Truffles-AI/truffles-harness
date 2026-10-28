@@ -3,7 +3,7 @@
 ## Run the same checks as CI
 
 ```bash
-uv sync --locked --extra providers --extra memory --extra qdrant --extra chroma --extra faiss
+uv sync --locked --extra providers --extra memory --extra qdrant --extra chroma --extra faiss --extra processing
 uv run ruff check src tests examples scripts
 uv run ruff format --check src tests examples scripts
 uv run pytest --cov=truffles --cov-fail-under=90
@@ -88,3 +88,11 @@ usage for the OpenAI, Groq, xAI and Anthropic adapters over stubbed HTTP.
 
 `examples/evaluation.py` is a credential-free CI example. Its scripted judge only
 tests the judging interface; it does not assess a live model's answer quality.
+
+## Processing tests
+
+Install the Tesseract system executable for the real OCR integration check; CI
+installs it explicitly. `tests/test_processing.py` covers real image/scanned-PDF
+OCR, PDF text extraction, local concurrent readers, resource bounds, tool path
+restrictions, source artifacts, async tools and native speech SDK wire contracts
+against stubbed HTTP. No speech credentials or paid calls are needed.

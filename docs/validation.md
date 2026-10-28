@@ -209,3 +209,41 @@ retrieval and scripted-judge gates and wrote reports/traces to an ignored local
 directory. A fresh wheel/source build succeeded; the wheel includes both new
 modules. No live judge call, hosted telemetry export, distributed load test or
 model-quality benchmark was performed for this extension.
+
+## Processing extension — 2026-10-28 / release 0.2.0
+
+Added optional Tesseract image OCR, PDFium text extraction and scanned-page OCR,
+literal text ingestion, speech-adapter transcription and directory-scoped agent
+tools. The core library dependencies are unchanged; processing integrations are
+optional extras.
+
+```text
+pytest tests/test_processing.py --cov=truffles.processing --cov-report=term-missing -q
+19 passed in 1.81s
+Processing module statement/branch coverage: 100%
+
+pytest tests apps/pfm/tests --cov=truffles --cov=truffles_pfm --cov-report=term-missing --cov-fail-under=90 -q
+232 passed, 1 warning in 8.57s
+Total coverage: 96.66%
+
+ruff check src tests examples scripts apps/pfm
+All checks passed!
+ruff format --check src tests examples scripts apps/pfm
+62 files already formatted
+python scripts/check_docs.py
+Checked 32 Markdown files and 66 Python snippets.
+```
+
+Real local Tesseract 5.5.3 extracted `TRUFFLES INVOICE 12345` from a generated image
+and a scanned PDF. Native PDFium extraction and concurrent-reader tests passed.
+The agent tool path preserved Documents as sources and emitted a tool trace.
+Transcription used the actual speech SDK with stubbed HTTP or an explicitly
+scripted adapter; no paid/live speech call was made. OCR was verified in English;
+additional installed language packs and real-world scan quality need separate
+application evaluation. The single suite warning remains the upstream FAISS
+integration's `langchain-community` deprecation.
+
+The 0.2.0 wheel was also installed with the `processing` extra into a fresh Python
+3.12 environment outside the checkout. The installed module path was verified;
+the real OCR/PDF/RAG/agent-tool example passed and the dependency compatibility
+check reported no conflicts.

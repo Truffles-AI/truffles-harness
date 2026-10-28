@@ -6,9 +6,14 @@ Public objects load on first access. Importing Truffles alone imports no SDKs.
 from importlib import import_module
 from typing import TYPE_CHECKING
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 _EXPORTS = {
+    "ProcessingLimits": ".processing",
+    "ocr": ".processing",
+    "read_documents": ".processing",
+    "transcribe": ".processing",
+    "processing_tools": ".processing",
     "EvalCase": ".evaluation",
     "Score": ".evaluation",
     "EvalRow": ".evaluation",
@@ -93,6 +98,11 @@ if TYPE_CHECKING:
     from .observability import JSONLTraceSink as JSONLTraceSink
     from .observability import Observer as Observer
     from .observability import Span as Span
+    from .processing import ProcessingLimits as ProcessingLimits
+    from .processing import ocr as ocr
+    from .processing import processing_tools as processing_tools
+    from .processing import read_documents as read_documents
+    from .processing import transcribe as transcribe
     from .providers import (
         chat_model as chat_model,
     )

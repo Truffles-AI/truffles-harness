@@ -1834,7 +1834,7 @@ wheels = [
 
 [[package]]
 name = "truffles"
-version = "0.1.0"
+version = "0.2.0"
 source = { editable = "../../" }
 dependencies = [
     { name = "langchain" },
@@ -1879,10 +1879,14 @@ requires-dist = [
     { name = "langgraph", specifier = ">=1.2.16,<2" },
     { name = "numpy", marker = "extra == 'memory'", specifier = ">=1.26,<3" },
     { name = "openai", marker = "extra == 'audio'", specifier = ">=2,<4" },
+    { name = "pillow", marker = "extra == 'ocr'", specifier = ">=11,<14" },
+    { name = "pypdfium2", marker = "extra == 'pdf'", specifier = ">=5,<6" },
+    { name = "pytesseract", marker = "extra == 'ocr'", specifier = ">=0.3.13,<0.4" },
     { name = "sentence-transformers", marker = "extra == 'huggingface'", specifier = ">=3,<6" },
+    { name = "truffles", extras = ["ocr", "pdf", "audio"], marker = "extra == 'processing'" },
     { name = "truffles", extras = ["openai", "anthropic", "gemini", "groq", "xai", "perplexity"], marker = "extra == 'providers'" },
 ]
-provides-extras = ["openai", "audio", "anthropic", "gemini", "groq", "xai", "perplexity", "providers", "memory", "qdrant", "chroma", "pinecone", "weaviate", "milvus", "postgres", "redis", "faiss", "elasticsearch", "cohere", "huggingface", "fastembed"]
+provides-extras = ["ocr", "pdf", "processing", "openai", "audio", "anthropic", "gemini", "groq", "xai", "perplexity", "providers", "memory", "qdrant", "chroma", "pinecone", "weaviate", "milvus", "postgres", "redis", "faiss", "elasticsearch", "cohere", "huggingface", "fastembed"]
 
 [package.metadata.requires-dev]
 dev = [
