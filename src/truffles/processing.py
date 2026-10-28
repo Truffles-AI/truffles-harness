@@ -83,34 +83,111 @@ def _ocr_options(language, psm, timeout):
         raise ValueError("timeout must be positive and finite.")
 
 
-def _ocr_image(image, *, language, psm, timeout, preprocess, limits):
+def _rotation_options(rotation, min_orientation_confidence):
+    if (
+        rotation != "auto"
+        and rotation is not None
+        and (type(rotation) is not int or rotation not in {0, 90, 180, 270})
+    ):
+        raise ValueError("rotation must be 'auto', None, or clockwise degrees 0/90/180/270.")
+    if (
+        not isinstance(min_orientation_confidence, (int, float))
+        or not math.isfinite(min_orientation_confidence)
+        or min_orientation_confidence < 0
+    ):
+        raise ValueError("min_orientation_confidence must be finite and nonnegative.")
+
+
+def _prepare_image(image, *, rotation, min_orientation_confidence, timeout, preprocess, limits):
     if image.width * image.height > limits.max_pixels:
         raise ValueError("Image exceeds max_pixels.")
-    tesseract = _dependency("pytesseract", "ocr")
     ops = _dependency("PIL.ImageOps", "ocr")
     pil = _dependency("PIL.Image", "ocr")
-    # Work on an owned copy. Correct EXIF orientation, flatten alpha on white.
+    info = {
+        "exif_transposed": image.getexif().get(274, 1) in range(2, 9),
+        "rotation_clockwise": 0,
+        "orientation_status": "disabled",
+    }
     with ops.exif_transpose(image) as oriented:
-        with oriented.convert("RGBA") as rgba:
-            with pil.new("RGBA", rgba.size, "white") as background:
-                background.alpha_composite(rgba)
-                prepared = (
-                    ops.autocontrast(ops.grayscale(background))
-                    if preprocess
-                    else background.convert("RGB")
+        with oriented.convert("RGBA") as rgba, pil.new("RGBA", oriented.size, "white") as bg:
+            bg.alpha_composite(rgba)
+            if preprocess:
+                with ops.grayscale(bg) as gray:
+                    prepared = ops.autocontrast(gray)
+            else:
+                prepared = bg.convert("RGB")
+    try:
+        angle = 0
+        if rotation == "auto":
+            tesseract = _dependency("pytesseract", "ocr")
+            try:
+                detected = tesseract.image_to_osd(
+                    prepared, output_type=tesseract.Output.DICT, timeout=timeout
                 )
-                try:
-                    text = tesseract.image_to_string(
-                        prepared, lang=language, config=f"--psm {psm}", timeout=timeout
-                    )
-                except tesseract.TesseractNotFoundError as exc:
-                    raise RuntimeError(
-                        "Install the Tesseract executable and put it on PATH; "
-                        "pip only installs its wrapper."
-                    ) from exc
-                finally:
-                    prepared.close()
-    return _check_text(text.strip(), limits)
+            except tesseract.TesseractNotFoundError:
+                raise
+            except (tesseract.TesseractError, RuntimeError) as exc:
+                info.update(orientation_status="unavailable", orientation_error=type(exc).__name__)
+            else:
+                confidence = float(detected["orientation_conf"])
+                candidate = detected["rotate"]
+                if (
+                    type(candidate) is not int
+                    or candidate not in {0, 90, 180, 270}
+                    or not math.isfinite(confidence)
+                    or confidence < 0
+                ):
+                    raise ValueError("Invalid Tesseract orientation result.")
+                info.update(orientation_confidence=confidence, rotation_detected=candidate)
+                if confidence >= min_orientation_confidence:
+                    angle = candidate
+                    info["orientation_status"] = "corrected" if angle else "upright"
+                else:
+                    info["orientation_status"] = "low_confidence"
+        elif rotation is not None:
+            angle = rotation
+            info["orientation_status"] = "manual"
+        if angle:
+            corrected = prepared.rotate(-angle, expand=True)
+            prepared.close()
+            prepared = corrected
+        info["rotation_clockwise"] = angle
+        return prepared, info
+    except BaseException:
+        prepared.close()
+        raise
+
+
+def _ocr_image(
+    image,
+    *,
+    language,
+    psm,
+    timeout,
+    preprocess,
+    limits,
+    rotation="auto",
+    min_orientation_confidence=10,
+):
+    tesseract = _dependency("pytesseract", "ocr")
+    try:
+        prepared, info = _prepare_image(
+            image,
+            rotation=rotation,
+            min_orientation_confidence=min_orientation_confidence,
+            timeout=timeout,
+            preprocess=preprocess,
+            limits=limits,
+        )
+        with prepared:
+            text = tesseract.image_to_string(
+                prepared, lang=language, config=f"--psm {psm}", timeout=timeout
+            )
+    except tesseract.TesseractNotFoundError as exc:
+        raise RuntimeError(
+            "Install the Tesseract executable and put it on PATH; pip only installs its wrapper."
+        ) from exc
+    return _check_text(text.strip(), limits), info
 
 
 def ocr(
@@ -120,11 +197,14 @@ def ocr(
     psm: int = 3,
     timeout: float = 30,
     preprocess: bool = True,
+    rotation: str | int | None = "auto",
+    min_orientation_confidence: float = 10,
     limits: ProcessingLimits | None = None,
 ) -> Document:
     """OCR one image with local Tesseract. Multi-frame images are rejected explicitly."""
     limits = limits or ProcessingLimits()
     _ocr_options(language, psm, timeout)
+    _rotation_options(rotation, min_orientation_confidence)
     data, name = _read(source, limits)
     pil = _dependency("PIL.Image", "ocr")
     with pil.open(io.BytesIO(data)) as image:
@@ -132,8 +212,15 @@ def ocr(
             raise ValueError(
                 "Multi-frame images are unsupported; convert frames to individual images."
             )
-        text = _ocr_image(
-            image, language=language, psm=psm, timeout=timeout, preprocess=preprocess, limits=limits
+        text, orientation = _ocr_image(
+            image,
+            language=language,
+            psm=psm,
+            timeout=timeout,
+            preprocess=preprocess,
+            limits=limits,
+            rotation=rotation,
+            min_orientation_confidence=min_orientation_confidence,
         )
     return Document(
         page_content=text,
@@ -142,11 +229,25 @@ def ocr(
             "processor": "tesseract",
             "language": language,
             "page": 1,
+            **orientation,
         },
     )
 
 
-def _pdf(data, name, *, pdf_mode, language, psm, timeout, dpi, password, limits):
+def _pdf(
+    data,
+    name,
+    *,
+    pdf_mode,
+    language,
+    psm,
+    timeout,
+    dpi,
+    password,
+    limits,
+    rotation,
+    min_orientation_confidence,
+):
     pdfium = _dependency("pypdfium2", "pdf")
     documents = []
     chars = 0
@@ -157,6 +258,7 @@ def _pdf(data, name, *, pdf_mode, language, psm, timeout, dpi, password, limits)
             with closing(pdf[index]) as page:
                 text = ""
                 processor = "pdfium"
+                orientation = {}
                 if pdf_mode != "ocr":
                     with closing(page.get_textpage()) as textpage:
                         if textpage.count_chars() + chars > limits.max_chars:
@@ -169,12 +271,14 @@ def _pdf(data, name, *, pdf_mode, language, psm, timeout, dpi, password, limits)
                         raise ValueError("Rendered PDF page exceeds max_pixels; reduce dpi.")
                     with closing(page.render(scale=scale)) as bitmap:
                         with bitmap.to_pil() as image:
-                            text = _ocr_image(
+                            text, orientation = _ocr_image(
                                 image,
                                 language=language,
                                 psm=psm,
                                 timeout=timeout,
                                 preprocess=True,
+                                rotation=rotation,
+                                min_orientation_confidence=min_orientation_confidence,
                                 limits=limits,
                             )
                     processor = "tesseract"
@@ -188,6 +292,7 @@ def _pdf(data, name, *, pdf_mode, language, psm, timeout, dpi, password, limits)
                             "source": name,
                             "page": index + 1,
                             "processor": processor,
+                            **orientation,
                             **({"language": language} if processor == "tesseract" else {}),
                         },
                     )
@@ -205,6 +310,8 @@ def read_documents(
     dpi: int = 200,
     password: str | None = None,
     encoding: str = "utf-8",
+    rotation: str | int | None = "auto",
+    min_orientation_confidence: float = 10,
     limits: ProcessingLimits | None = None,
 ) -> list[Document]:
     """Read text, images or PDF pages into RAG-ready Documents (one-based page metadata).
@@ -218,10 +325,21 @@ def read_documents(
     if type(dpi) is not int or not 72 <= dpi <= 600:
         raise ValueError("dpi must be an integer from 72 to 600.")
     _ocr_options(language, psm, timeout)
+    _rotation_options(rotation, min_orientation_confidence)
     path = Path(path)
     suffix = path.suffix.lower()
     if suffix in _IMAGE_TYPES:
-        return [ocr(path, language=language, psm=psm, timeout=timeout, limits=limits)]
+        return [
+            ocr(
+                path,
+                language=language,
+                psm=psm,
+                timeout=timeout,
+                limits=limits,
+                rotation=rotation,
+                min_orientation_confidence=min_orientation_confidence,
+            )
+        ]
     if suffix not in _TEXT_TYPES | {".pdf"}:
         raise ValueError("Unsupported file type; use PDF, a supported image or a plain-text file.")
     data, name = _read(path, limits)
@@ -235,6 +353,8 @@ def read_documents(
             timeout=timeout,
             dpi=dpi,
             password=password,
+            rotation=rotation,
+            min_orientation_confidence=min_orientation_confidence,
             limits=limits,
         )
     text = _check_text(data.decode(encoding), limits)
@@ -285,6 +405,9 @@ def processing_tools(
     limits: ProcessingLimits | None = None,
     max_tool_chars: int = 12000,
     pdf_mode: str = "auto",
+    rotation: str | int | None = "auto",
+    min_orientation_confidence: float = 10,
+    tables: bool = False,
 ) -> list[StructuredTool]:
     """Agent file-reading/OCR tools; add audio only when an adapter is supplied.
 
@@ -299,6 +422,7 @@ def processing_tools(
         raise ValueError("max_tool_chars must be a positive integer.")
     limits = limits or ProcessingLimits()
     _ocr_options(language, 3, 30)
+    _rotation_options(rotation, min_orientation_confidence)
     if pdf_mode not in {"auto", "text", "ocr"}:
         raise ValueError("pdf_mode must be 'auto', 'text' or 'ocr'.")
 
@@ -329,18 +453,66 @@ def processing_tools(
         """Read a PDF, image, TXT, Markdown, CSV or JSON file from the allowed directory."""
         path = resolve(file)
         return result(
-            read_documents(path, pdf_mode=pdf_mode, language=language, limits=limits), path
+            read_documents(
+                path,
+                pdf_mode=pdf_mode,
+                language=language,
+                limits=limits,
+                rotation=rotation,
+                min_orientation_confidence=min_orientation_confidence,
+            ),
+            path,
         )
 
     def ocr_file(file: str):
         """Extract printed text from one image using local Tesseract OCR."""
         path = resolve(file)
-        return result([ocr(path, language=language, limits=limits)], path)
+        return result(
+            [
+                ocr(
+                    path,
+                    language=language,
+                    limits=limits,
+                    rotation=rotation,
+                    min_orientation_confidence=min_orientation_confidence,
+                )
+            ],
+            path,
+        )
 
     tools = [
         StructuredTool.from_function(fn, response_format="content_and_artifact")
         for fn in (read_file, ocr_file)
     ]
+    if tables:
+
+        def extract_file_tables(file: str):
+            """Extract candidate tables from an allowed image/PDF; review structure before use."""
+            from dataclasses import replace
+
+            from .table_extraction import extract_tables
+
+            path = resolve(file)
+            extracted = extract_tables(
+                path,
+                language=language,
+                limits=limits,
+                rotation=rotation,
+                min_orientation_confidence=min_orientation_confidence,
+            )
+            return result(
+                [
+                    replace(table, source=path.relative_to(root).as_posix()).to_document()
+                    for table in extracted
+                ],
+                path,
+            )
+
+        tools.append(
+            StructuredTool.from_function(
+                extract_file_tables, response_format="content_and_artifact"
+            )
+        )
     if speech is not None:
 
         def transcribe_file(file: str):

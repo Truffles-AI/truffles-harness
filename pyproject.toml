@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "truffles"
-version = "0.2.0"
+version = "0.3.0"
 description = "A small, composable harness for LangChain agents, LangGraph workflows, and RAG."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -19,6 +19,7 @@ dependencies = [
 [project.optional-dependencies]
 ocr = ["Pillow>=11,<14", "pytesseract>=0.3.13,<0.4"]
 pdf = ["pypdfium2>=5,<6"]
+tables = ["truffles[ocr,pdf]", "img2table==2.0.0; python_version < '3.15'"]
 processing = ["truffles[ocr,pdf,audio]"]
 openai = ["langchain-openai>=1.7.2,<2"]
 audio = ["openai>=2,<4"]

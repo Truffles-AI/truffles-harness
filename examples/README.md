@@ -3,7 +3,7 @@
 All programs run without credentials or network calls after installation.
 
 ```bash
-uv sync --locked --extra providers --extra memory --extra qdrant --extra chroma --extra faiss --extra processing
+uv sync --locked --extra providers --extra memory --extra qdrant --extra chroma --extra faiss --extra processing --extra tables
 uv run python examples/offline.py
 uv run python examples/async_team.py
 uv run python examples/local_qdrant.py
@@ -28,3 +28,7 @@ gates and content-free trace exports under `.truffles/evaluation/`. See the
 
 `processing.py` uses real local Tesseract and PDFium on generated documents, with
 scripted agent and speech adapters. [Processing setup and limits](../docs/processing.md).
+
+`tables.py` generates a sideways page and scanned PDF, corrects orientation and
+extracts a ruled table into CSV/JSON using real local engines. Requires `tables` and
+Tesseract with English/OSD data: `uv run python examples/tables.py`. Results require review.

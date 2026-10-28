@@ -247,3 +247,44 @@ The 0.2.0 wheel was also installed with the `processing` extra into a fresh Pyth
 3.12 environment outside the checkout. The installed module path was verified;
 the real OCR/PDF/RAG/agent-tool example passed and the dependency compatibility
 check reported no conflicts.
+
+## Rotation and table extension — 2026-10-28 / release 0.3.0
+
+Added confidence-gated Tesseract OSD correction, explicit/manual quarter-turn
+rotation and an optional img2table adapter for candidate table cells, exports and
+agent tools. Core dependencies remain unchanged. The tables extra is separate
+from processing and supports Python 3.11-3.14.
+
+```text
+pytest tests apps/pfm/tests --cov=truffles --cov=truffles_pfm --cov-report=term-missing --cov-fail-under=90 -q
+257 passed, 1 warning in 14.74s
+Total coverage: 96.79%
+
+ruff check src tests examples scripts apps/pfm
+All checks passed!
+ruff format --check src tests examples scripts apps/pfm
+65 files already formatted
+python scripts/check_docs.py
+Checked 32 Markdown files and 68 Python snippets.
+uv lock --check
+Resolved 241 packages
+uv lock --project apps/pfm --check
+Resolved 74 packages
+```
+
+Real local Tesseract 5.5.3 corrected generated English pages at 0, 90, 180 and
+270 degrees. All nine expected cells in the ruled sample matched after rotation.
+The standalone example also recovered the table from a sideways scanned PDF.
+Contract tests cover low-confidence/failed OSD, EXIF ordering, explicit rotations,
+output/resource bounds, OCR parameters, CSV/JSON/Document exports and agent-tool
+path checks. Provider traffic remains stubbed with network sockets blocked.
+
+Built the 0.3.0 wheel and installed its processing/tables extras into a fresh
+Python 3.12 environment. Verified imports came from the installed wheel, ran both
+processing and tables examples outside the checkout, and passed the dependency
+compatibility check. The existing upstream FAISS deprecation is the only test warning.
+
+These checks establish the synthetic ruled-table behavior, not general document
+accuracy. Borderless/merged layouts, small-angle deskew, handwriting, additional
+languages and real bank documents need representative evaluation. Returned table
+structure always requires review. No live paid inference was used for this release.

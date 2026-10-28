@@ -1834,7 +1834,7 @@ wheels = [
 
 [[package]]
 name = "truffles"
-version = "0.2.0"
+version = "0.3.0"
 source = { editable = "../../" }
 dependencies = [
     { name = "langchain" },
@@ -1855,6 +1855,7 @@ openai = [
 requires-dist = [
     { name = "faiss-cpu", marker = "extra == 'faiss'", specifier = ">=1.9,<2" },
     { name = "fastembed", marker = "extra == 'fastembed'", specifier = ">=0.5,<1" },
+    { name = "img2table", marker = "python_full_version < '3.15' and extra == 'tables'", specifier = "==2.0.0" },
     { name = "langchain", specifier = ">=1.4.6,<2" },
     { name = "langchain-anthropic", marker = "extra == 'anthropic'", specifier = ">=1.7.6,<2" },
     { name = "langchain-chroma", marker = "extra == 'chroma'", specifier = ">=1,<2" },
@@ -1883,10 +1884,11 @@ requires-dist = [
     { name = "pypdfium2", marker = "extra == 'pdf'", specifier = ">=5,<6" },
     { name = "pytesseract", marker = "extra == 'ocr'", specifier = ">=0.3.13,<0.4" },
     { name = "sentence-transformers", marker = "extra == 'huggingface'", specifier = ">=3,<6" },
+    { name = "truffles", extras = ["ocr", "pdf"], marker = "extra == 'tables'" },
     { name = "truffles", extras = ["ocr", "pdf", "audio"], marker = "extra == 'processing'" },
     { name = "truffles", extras = ["openai", "anthropic", "gemini", "groq", "xai", "perplexity"], marker = "extra == 'providers'" },
 ]
-provides-extras = ["ocr", "pdf", "processing", "openai", "audio", "anthropic", "gemini", "groq", "xai", "perplexity", "providers", "memory", "qdrant", "chroma", "pinecone", "weaviate", "milvus", "postgres", "redis", "faiss", "elasticsearch", "cohere", "huggingface", "fastembed"]
+provides-extras = ["ocr", "pdf", "tables", "processing", "openai", "audio", "anthropic", "gemini", "groq", "xai", "perplexity", "providers", "memory", "qdrant", "chroma", "pinecone", "weaviate", "milvus", "postgres", "redis", "faiss", "elasticsearch", "cohere", "huggingface", "fastembed"]
 
 [package.metadata.requires-dev]
 dev = [

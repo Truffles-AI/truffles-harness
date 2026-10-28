@@ -6,9 +6,11 @@ Public objects load on first access. Importing Truffles alone imports no SDKs.
 from importlib import import_module
 from typing import TYPE_CHECKING
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 _EXPORTS = {
+    "TableResult": ".table_extraction",
+    "extract_tables": ".table_extraction",
     "ProcessingLimits": ".processing",
     "ocr": ".processing",
     "read_documents": ".processing",
@@ -132,6 +134,8 @@ if TYPE_CHECKING:
     from .speech import speech_model as speech_model
     from .stores import register_vectorstore as register_vectorstore
     from .stores import vectorstore as vectorstore
+    from .table_extraction import TableResult as TableResult
+    from .table_extraction import extract_tables as extract_tables
     from .workflows import (
         parallel as parallel,
     )

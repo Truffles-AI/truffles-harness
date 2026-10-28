@@ -23,7 +23,7 @@ assume an unrelated package named `truffles` on a package registry is this libra
 Install the released wheel directly, without cloning the repository:
 
 ```bash
-python -m pip install 'truffles[openai] @ https://github.com/Truffles-AI/truffles-harness/releases/download/v0.2.0/truffles-0.2.0-py3-none-any.whl'
+python -m pip install 'truffles[openai] @ https://github.com/Truffles-AI/truffles-harness/releases/download/v0.3.0/truffles-0.3.0-py3-none-any.whl'
 ```
 
 Replace `[openai]` with the extras you need, or omit it for the core library.
@@ -175,7 +175,7 @@ tool execution, RAG, pipelines, parallel teams, delegation and native graphs.
 
 ## Process images, documents and audio
 
-Install the `processing` extra and the Tesseract system executable for local OCR:
+Install the `processing` extra and the Tesseract system executable for local OCR (add `tables` for table layout extraction):
 
 ```python
 from truffles import ocr, read_documents, transcribe
@@ -186,7 +186,9 @@ transcript = transcribe("meeting.wav")  # Configured OpenAI speech endpoint by d
 ```
 
 Each processor returns a native Document (or a list for `read_documents`), ready
-for RAG. Use `processing_tools("./uploads")` to give an agent directory-scoped file
+for RAG. Since 0.3.0, OCR also supports automatic quarter-turn correction.
+Install `tables` for `extract_tables("statement.pdf")`, which returns reviewable
+rows/cells with CSV/JSON exports. Use `processing_tools("./uploads")` to give an agent directory-scoped file
 reading and OCR; supply a speech adapter to enable its transcription tool.
 [Processing guide](docs/processing.md) covers setup, custom speech endpoints, input
 limits and the distinction between local processing and external transcription.
@@ -252,7 +254,7 @@ records these boundaries explicitly.
 ## Development and tests
 
 ```bash
-uv sync --locked --extra providers --extra memory --extra qdrant --extra chroma --extra faiss --extra processing
+uv sync --locked --extra providers --extra memory --extra qdrant --extra chroma --extra faiss --extra processing --extra tables
 uv run ruff check src tests examples scripts
 uv run ruff format --check src tests examples scripts
 uv run pytest --cov=truffles --cov-fail-under=90

@@ -3,7 +3,7 @@
 ## Run the same checks as CI
 
 ```bash
-uv sync --locked --extra providers --extra memory --extra qdrant --extra chroma --extra faiss --extra processing
+uv sync --locked --extra providers --extra memory --extra qdrant --extra chroma --extra faiss --extra processing --extra tables
 uv run ruff check src tests examples scripts
 uv run ruff format --check src tests examples scripts
 uv run pytest --cov=truffles --cov-fail-under=90

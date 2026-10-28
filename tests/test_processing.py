@@ -24,6 +24,22 @@ from truffles import (
 from truffles.testing import ScriptedChatModel
 
 
+@pytest.fixture(autouse=True)
+def stub_orientation_except_integration(request, monkeypatch):
+    if request.node.get_closest_marker("integration"):
+        return
+    import pytesseract
+
+    monkeypatch.setattr(
+        pytesseract,
+        "image_to_osd",
+        lambda *a, **kw: {
+            "rotate": 0,
+            "orientation_conf": 20,
+        },
+    )
+
+
 def image_bytes(text="TRUFFLES INVOICE 12345", *, format="PNG"):
     with Image.new("RGB", (1100, 200), "white") as image:
         ImageDraw.Draw(image).text(
